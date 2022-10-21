@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title> AJAX con jQuery</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+</head>
+<script type="text/javascript">
+    function validarUsuario() {
+        action = $('#action').val();; //1 credito/ 2 debito
+        pnom = $('#nom').val();
+        cred = $('#cred').val();
+        numcuenta = $('#numcuenta').val();
+        // Función que envía y recibe respuesta con AJAX
+        $.ajax({
+            type: 'POST', // Envío con método POST
+            url: 'envioCurl.php', // Fichero destino (el PHP que trata los datos)
+            data: {
+                "action": action,
+                "nom": pnom,
+                "cred": cred,
+                "numcuenta": numcuenta
+            } // Datos que se envían
+        }).done(function(msg) { // Función que se ejecuta si todo ha ido bien
+            $("#consola").html(msg); // Escribimos en el div consola el mensaje devuelto
+        }).fail(function(jqXHR, textStatus, errorThrown) { // Función que se ejecuta si algo ha ido mal
+            // Mostramos en consola el mensaje con el error que se ha producido
+            $("#consola").html("The following error occured: " + textStatus + " " + errorThrown);
+        });
+    }
+</script>
+</head>
+
+<body>
+
+
+
+    <form id="validador" style="height: 400px;width: 400px; margin-left: 10%;margin-top: 10%;">
+        <strong>Datos </strong><br>
+        <label for="nom">USUARIO</label>
+        <input id="nom" class="form-control" type="text" name="nom" placeholder="Insert User" />
+
+
+        <label for="numcuenta">Numero Cuenta</label>
+        <input id="numcuenta" class="form-control" type="number" name="numcuenta" placeholder="Insert Num cuenta" />
+
+        <label for="action">ACCION</label>
+        <select name="action" class="form-control" id="action">
+            <option value="1">CREDITO</option>
+            <option value="2">DEBITO</option>
+          </select>
+        <label for="cred">Cantidad</label>
+        <input id="cred" class="form-control" type="number" name="cred" placeholder="Insert Credit" />
+
+        <!-- Botón que hace la llamada a la función validarUsuario() para enviar formulario -->
+        <input onclick="validarUsuario()" class="btn btn-primary" type="button" value="Validar usuario" />
+        <!-- Consola dónde mostramos mensajes devueltos -->
+        <div id="consola"></div>
+
+        </div>
+
+    </form>
+</body>
+
+
+
+</html>
+
+
+
+
+<!-- 
+
+<!DOCTYPE html>
+<title>information</title>
+
+<input type="text" value="information" id="arr">
+<input type="button" onclick="t22()" value="enviar">
+
+<script type="text/javascript">
+    function t22() {
+        var numero = document.getElementById("arr").value;
+        // var numero = $('#arr').val();
+        alert(numero);
+
+        var url = "envioCurl.php";
+        var select = {
+            //"cuentapais" : cuentapais,
+            //  "fecha":fecha,
+            "numero": numero
+        };
+        $.ajax({
+            data: select,
+            url: url,
+            type: 'post',
+            beforeSend: function() {
+
+                //  $("#resultado"+id_div).html("Procesando, espere por favor...");
+            },
+            success: function(response) {
+                alert(response);
+                // $("#uniMB").html(response);
+            }
+        });
+    }
+</script> -->
