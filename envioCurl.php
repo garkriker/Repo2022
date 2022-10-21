@@ -6,7 +6,7 @@ $cred= (double)filter_var($_POST['cred'], FILTER_SANITIZE_NUMBER_FLOAT, FILTER_F
 $numcuenta=$_POST['numcuenta'];
 $accion=$_POST['action']; 
 
- 
+//solo probando la info 
 //echo $nombre."___".$cred."___".$numcuenta."___".$accion;
 
 $url = 'http://www.example.com/api';
