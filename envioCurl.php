@@ -9,33 +9,61 @@ $accion=$_POST['action'];
 //solo probando la info 
 //echo $nombre."___".$cred."___".$numcuenta."___".$accion;
 
-$url = 'http://www.example.com/api';
+$url = 'http://apitransaccional-env.eba-2bgdcy6u.us-east-1.elasticbeanstalk.com/api/byId/1';
 
 switch ($accion) {
     case '1': //credito
         $data = array(
-            'usuario' =>$nombre,
-            'credito' => $cred,
-            'numeroCuenta'=>intval($numcuenta)
+            'accion' =>$nombre,
+            'valor' => $cred,
+            'numeroCuenta'=>intval($numcuenta),
+            'usuarioLog' =>'carlos',
+            'passLog'=>'carlos123'
         );
         break;
     case '2': //debito
         $data = array(
-            'usuario' =>$nombre,
-            'credito' => $cred,
-            'numeroCuenta'=>intval($numcuenta)
+            'accion' =>$nombre,
+            'valor' => abs($cred),
+            'numeroCuenta'=>intval($numcuenta),
+            'usuarioLog' =>'carlos',
+            'passLog'=>'carlos123'
         );
         break;
-
+    case '3': //historico
+            $data = array( 'accion' =>'0',
+            'valor' => '',
+            'numeroCuenta'=>intval($numcuenta),
+            'usuarioLog' =>'',
+            'passLog'=>''
+            );
+            break;
     default:
     $data = array(
-        'usuario' =>$nombre,
-        'credito' => $cred,
+        'accion' =>$accio,// catalog/operaciones
+        'monto' => $cred,
         'numeroCuenta'=>intval($numcuenta)
     );
         break;
 }
 
+//$valor="Credito,150|Debito,130|Credito,180|Debito,700";
+
+$valor=[array(
+    'tipo'=>'CREDITO',
+    'cantidad'=>'1000.00',
+    'numcuenta'=>$numcuenta
+),
+array(
+    'tipo'=>'DEBITO',
+    'cantidad'=>'100.00',
+    'numcuenta'=>$numcuenta
+)
+];
+
+print_r (json_encode( $valor));
+
+/*
 
 //create a new cURL resource
 $ch = curl_init($url);
@@ -59,8 +87,10 @@ $result = curl_exec($ch);
 //echo "<pre>";
 print_r($payload);
 //echo "<br>";
-//var_dump($result);
+var_dump($result);
 //echo "</pre>";
 //close cURL resource
 curl_close($ch);
+
+*/
  
