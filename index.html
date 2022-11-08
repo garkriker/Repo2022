@@ -7,8 +7,16 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.css">
+
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.js"></script>
+
+
+
 </head>
 <script type="text/javascript">
+    var DData = [];
+
     function validarUsuario() {
         action = $('#action').val();; //1 credito/ 2 debito
         pnom = $('#nom').val();
@@ -26,6 +34,7 @@
             } // Datos que se envían
         }).done(function(msg) { // Función que se ejecuta si todo ha ido bien
             $("#consola").html(msg); // Escribimos en el div consola el mensaje devuelto
+            $("#consolaModal").html(msg);
         }).fail(function(jqXHR, textStatus, errorThrown) { // Función que se ejecuta si algo ha ido mal
             // Mostramos en consola el mensaje con el error que se ha producido
             $("#consola").html("The following error occured: " + textStatus + " " + errorThrown);
@@ -38,10 +47,64 @@
 
 
 
-    <form id="validador" style="height: 400px;width: 400px; margin-left: 10%;margin-top: 10%;">
+    <div class="container">
+        <a href="#"><img src="https://i.pinimg.com/736x/4a/a6/9b/4aa69ba8ed13ba96cc434fb6f33efb61.jpg" height="100px" alt="MDN"></a>
+
+        <button type="button" class="btn btn-info" style="margin-left:  3px;" data-toggle="modal" data-target="#myModal2">Transac</button>
+
+        <div class="modal fade" id="myModal2" role="dialog">
+            <div class="modal-dialog">
+
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title">TRANSACCIONES</h4>
+                    </div>
+                    <div class="modal-body">
+
+                        <form id="validador" style="height: 300px;width: 400px; margin-left: 10%;margin-top: 10%;">
+                            <strong>Datos </strong><br>
+                            <label for="nom" style="display: none;">USUARIO</label>
+                            <input id="nom" style="display: none;" class="form-control" type="text" name="nom" placeholder="Insert User" />
+
+
+                            <label for="numcuenta">NUMERO DE CUENTA</label>
+                            <input id="numcuenta" class="form-control" type="number" name="numcuenta" placeholder="Insert Num cuenta" />
+
+                            <label for="action">ACCION</label>
+                            <select name="action" class="form-control" id="action">
+                                <option value="1">CREDITO</option>
+                                <option value="2">DEBITO</option>
+                              </select>
+                            <label for="cred">CANTIDAD</label>
+                            <input id="cred" class="form-control" type="number" name="cred" placeholder="Insert Credit" />
+
+                            <!-- Botón que hace la llamada a la función validarUsuario() para enviar formulario -->
+                            <input onclick="validarUsuario()" class="btn btn-primary" type="button" value="submit" />
+                            <!-- Consola dónde mostramos mensajes devueltos -->
+                            <div id="consola"></div>
+
+
+                        </form>
+
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+
+        </div>
+
+
+
+
+        <!--
+    <form id="validador" style="height: 300px;width: 400px; margin-left: 10%;margin-top: 10%;">
         <strong>Datos </strong><br>
-        <label for="nom">USUARIO</label>
-        <input id="nom" class="form-control" type="text" name="nom" placeholder="Insert User" />
+        <label for="nom" style="display: none;">USUARIO</label>
+        <input id="nom" style="display: none;" class="form-control" type="text" name="nom" placeholder="Insert User" />
 
 
         <label for="numcuenta">NUMERO DE CUENTA</label>
@@ -54,56 +117,291 @@
           </select>
         <label for="cred">CANTIDAD</label>
         <input id="cred" class="form-control" type="number" name="cred" placeholder="Insert Credit" />
-
-        <!-- Botón que hace la llamada a la función validarUsuario() para enviar formulario -->
-        <input onclick="validarUsuario()" class="btn btn-primary" type="button" value="Validar usuario" />
-        <!-- Consola dónde mostramos mensajes devueltos -->
-        <div id="consola"></div>
-
-        </div>
+ 
+        <input onclick="validarUsuario()" class="btn btn-primary" type="button" value="submit" /> 
+        <div id="consola"></div> 
 
     </form>
+-->
+        <!--
+    <div class="container">
+        <h2>Nuevo Cliente</h2>
+        <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Open Modal</button>
+
+        <div class="modal fade" id="myModal" role="dialog">
+            <div class="modal-dialog">
+
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title">Formulario Nuevo cliente</h4>
+                    </div>
+                    <div class="modal-body">
+
+                        <strong>Datos </strong><br>
+                        <label for="nomuser">NOMBRE USUARIO</label>
+                        <input id="nomuser" class="form-control" type="text" name="nomuser" placeholder="Nombre" />
+
+
+                        <label for="dpi">NUMERO DPI</label>
+                        <input id="dpi" class="form-control" type="number" name="dpi" placeholder="DPI" />
+
+                        <label for="cuentatipo">Cuenta</label>
+                        <select name="cuentatipo" class="form-control" id="cuentatipo">
+                            <option value="1">AHORRO</option>
+                            <option value="2">MONETARIA</option>
+                          </select>
+                        <label for="action">MONEDA</label>
+                        <select name="cuentaMoneda" class="form-control" id="cuentaMoneda">
+                              <option value="USD">USD</option>
+                              <option value="GTQ">GTQ</option>
+                              <option value="EUR">EURO</option>
+                              <option value="LPS">LPS</option>
+                            </select>
+                        <label for="cant">CANTIDAD INICIAL</label>
+                        <input id="cant" class="form-control" type="number" name="cant" placeholder="Credit" />
+
+                       
+                        <input onclick="validarUsuario()" class="btn btn-primary" type="button" value="submit" />
+                       
+                        <div id="consolaModal"></div>
+
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+-->
+
+
+        <button onclick="myFunction()" class="btn btn-info" style="margin-left:1%; ">Historial</button><br>
+    </div>
+
+
+    <div style='height: 1000px;width: 900px; margin-left:3%;margin-top: 2%; border: 0px solid blue; margin-right:10px;'>
+        <div id="myDIV" style="display: none;" class="form-outline mb-4">
+
+            <label for="numcuenta2">NUMERO DE CUENTA</label>
+            <input id="numcuenta2" class="form-control" type="number" name="numcuenta2" value="88" placeholder="Insert Num cuenta" />
+
+            <input onclick="validarLogCliente()" class="btn btn-primary" type="button" value="Submit" />
+            <div class="container">
+                <table id="example" class="table table-striped table-bordered dt-responsive nowrap" style="width:100%">
+                    <thead id="divABC">
+                        <tr>
+                            <th>NumCuenta</th>
+                            <th>CANTIDAD</th>
+                            <th>Credito/debito</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                </table>
+
+
+            </div>
+        </div>
+    </div>
+
+
 </body>
 
 
 
 </html>
 
+<script>
+    function myFunction() {
+        var x = document.getElementById("myDIV");
+        if (x.style.display === "none") {
+            x.style.display = "block";
+        } else {
+            x.style.display = "none";
+        }
+    }
 
+    function validarLogCliente() {
 
-
-<!-- 
-
-<!DOCTYPE html>
-<title>information</title>
-
-<input type="text" value="information" id="arr">
-<input type="button" onclick="t22()" value="enviar">
-
-<script type="text/javascript">
-    function t22() {
-        var numero = document.getElementById("arr").value;
-        // var numero = $('#arr').val();
-        alert(numero);
-
-        var url = "envioCurl.php";
-        var select = {
-            //"cuentapais" : cuentapais,
-            //  "fecha":fecha,
-            "numero": numero
-        };
+        // myTable.clear().draw();
+        //while (div.firstChild) {
+        //   div.removeChild(div.firstChild);
+        // }
+        //  action = $('#action').val();; //1 credito/ 2 debito
+        //  pnom = $('#nom').val();
+        //  cred = $('#cred').val();
+        numcuenta = $('#numcuenta2').val();
+        // Función que envía y recibe respuesta con AJAX
         $.ajax({
-            data: select,
-            url: url,
-            type: 'post',
-            beforeSend: function() {
+            type: 'POST', // Envío con método POST
+            url: 'envioCurl.php', // Fichero destino (el PHP que trata los datos)
+            data: {
+                "action": 3,
+                //"nom": pnom,
+                //"cred": cred,
+                "numcuenta": numcuenta
+            } // Datos que se envían
+        }).done(function(msg) { // Función que se ejecuta si todo ha ido bien
+            //$("#consola").html(msg); // Escribimos en el div consola el mensaje devuelto
 
-                //  $("#resultado"+id_div).html("Procesando, espere por favor...");
-            },
-            success: function(response) {
-                alert(response);
-                // $("#uniMB").html(response);
+            var lang = {
+                "sProcessing": "Procesando...",
+                "sLengthMenu": "Mostrar _MENU_ registros",
+                "sZeroRecords": "No se encontraron resultados",
+                "sEmptyTable": "Ningún dato disponible en esta tabla",
+                "sInfo": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+                "sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
+                "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
+                "sInfoPostFix": "",
+                "sSearch": "Buscar:",
+                "sUrl": "",
+                "sInfoThousands": ",",
+                "sLoadingRecords": "Cargando...",
+                "oPaginate": {
+                    "sFirst": "Primero",
+                    "sLast": "Último",
+                    "sNext": "Siguiente",
+                    "sPrevious": "Anterior"
+                },
+                "oAria": {
+                    "sSortAscending": ": Activar para ordenar la columna de manera ascendente",
+                    "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+                },
+                "buttons": {
+                    "copy": "Copiar",
+                    "colvis": "Visibilidad"
+                }
             }
+
+            var data2 = $.parseJSON(msg);
+            // console.log(data2);
+            DData = [];
+            data2.forEach(function(elemento, indice, array) {
+                //  console.log(elemento, indice);
+
+                DData.push(elemento);
+                //console.log(DData);
+            });
+            //console.log(DData);
+
+            /*    DData.push({
+                    tipo: 'creditoss',
+                    cantidad: '1000.00',
+                    numcuenta: '88'
+                }); */
+            $('#numcuenta2').val('');
+
+
+
+            //destruye las columnas
+            $('#example').DataTable().columns().destroy();
+            table = $('#example').DataTable({
+                "createdRow": function(row, data, dataIndex) {
+                    if (data['tipo'] == 'DEBITO') {
+                        //  $(row).css('color', '#C36D6D');
+                        $(row).css('background-color', '#F8BCA3');
+                    } else {
+                        //  $(row).css('color', '#65A063ED');
+
+                        $(row).css('background-color', '#A7FF9D');
+                    }
+                    // $(row).css('background-color', 'green'); 
+
+                },
+                retrieve: true,
+                responsive: true,
+                language: lang,
+                data: DData,
+                columns: [{
+                    data: 'numcuenta',
+                    ResizeObserverSize
+                }, {
+                    data: 'cantidad'
+                }, {
+                    data: 'tipo'
+                }],
+            });
+
+
+
+            // $('#example').empty();
+        }).fail(function(jqXHR, textStatus, errorThrown) { // Función que se ejecuta si algo ha ido mal
+            // Mostramos en consola el mensaje con el error que se ha producido
+            //$("#consola").html("The following error occured: " + textStatus + " " + errorThrown);
+            //alert(msg);
+            alert("The following error occured: " + textStatus + " " + errorThrown);
+
         });
     }
-</script> -->
+
+
+
+    /*
+
+        var lang = {
+            "sProcessing": "Procesando...",
+            "sLengthMenu": "Mostrar _MENU_ registros",
+            "sZeroRecords": "No se encontraron resultados",
+            "sEmptyTable": "Ningún dato disponible en esta tabla",
+            "sInfo": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+            "sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
+            "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
+            "sInfoPostFix": "",
+            "sSearch": "Buscar:",
+            "sUrl": "",
+            "sInfoThousands": ",",
+            "sLoadingRecords": "Cargando...",
+            "oPaginate": {
+                "sFirst": "Primero",
+                "sLast": "Último",
+                "sNext": "Siguiente",
+                "sPrevious": "Anterior"
+            },
+            "oAria": {
+                "sSortAscending": ": Activar para ordenar la columna de manera ascendente",
+                "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+            },
+            "buttons": {
+                "copy": "Copiar",
+                "colvis": "Visibilidad"
+            }
+        }
+
+      data = [{
+              "tipo": "credito",
+              "cantidad": "200.00"
+          }, {
+              "tipo": "debito",
+              "cantidad": "200"
+          }]*/
+    //  console.log("_____");
+
+    //Despuesde cargada la pagina, se proceden a enlazar los elementos con jquery
+    /*   function abc() {
+           //var data = [];
+           //Enlazando tabla con datos AJAX
+           var table = $('#example').DataTable({
+               language: lang,
+               data: DData,
+               columns: [{
+                   data: 'tipo'
+               }, {
+                   data: 'cantidad'
+               }, {
+                   data: null,
+                   render: function(data, type, row, meta) {
+                       return '';
+                   }
+               }],
+           });
+
+
+
+       };
+
+       abc();
+       */
+</script>
